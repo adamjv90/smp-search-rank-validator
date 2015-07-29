@@ -14,8 +14,8 @@ var client = algoliasearch('MI4MSOKC78', '20dc1cdfee4ce4a4573f2a648ea97d79');
 var index = client.initIndex('images');
 
 var table = new Table({
-    head: ['ID', 'Date', 'LBB', 'Tags 3', 'Tags 2', 'Tag', 'ETags A', 'ETags B'],
-    colWidths: [9, 8, 5, 8, 8, 7, 10, 10]
+    head: ['ID', 'Date', 'GID', 'LBB', 'Tags 3', 'Tags 2', 'Tag', 'ETags A', 'ETags B'],
+    colWidths: [9, 8, 7, 5, 8, 8, 7, 9, 9]
 });
 
 function creditsContainLBB (credits) {
@@ -52,9 +52,8 @@ index.search(process.argv[2], {
         'ym:' + ym
     ]
 }, function searchDone(err, contents) {
-    console.log(err);
     each(contents.hits, function (row) {
-        table.push([row.objectID, row.ym.substring(4, 6) + '/' + row.ym.substring(2, 4), creditsContainLBB(row.credits) ? figures.tick : figures.cross, tagsMatchingQuery(row._highlightResult.tags3).join(''), tagsMatchingQuery(row._highlightResult.tags2).join(''), tagsMatchingQuery(row._highlightResult.tags1).join(''), tagsMatchingQuery(row._highlightResult.etagsA).join(''), tagsMatchingQuery(row._highlightResult.etagsB).join('')]);
+        table.push([row.objectID, row.ym.substring(4, 6) + '/' + row.ym.substring(2, 4), row.gid, creditsContainLBB(row.credits) ? figures.tick : figures.cross, tagsMatchingQuery(row._highlightResult.tags3).join(''), tagsMatchingQuery(row._highlightResult.tags2).join(''), tagsMatchingQuery(row._highlightResult.tags1).join(''), tagsMatchingQuery(row._highlightResult.etagsA).join(''), tagsMatchingQuery(row._highlightResult.etagsB).join('')]);
     });
 
     console.log(table.toString());
