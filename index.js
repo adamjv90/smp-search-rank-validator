@@ -39,7 +39,20 @@ function tagsMatchingQuery (tags) {
     }));
 }
 
-index.search(process.argv[2], function searchDone(err, contents) {
+function pad (n){
+    return n < 10 ? '0' + n : n;
+}
+
+var currentTime = new Date();
+var ym = process.argv[3] || currentTime.getFullYear() + pad(currentTime.getMonth() + 1);
+
+index.search(process.argv[2], {
+    hitsPerPage: 999,
+    facetFilters: [
+        'ym:' + ym
+    ]
+}, function searchDone(err, contents) {
+    console.log(err);
     each(contents.hits, function (row) {
         table.push([row.objectID, row.ym.substring(4, 6) + '/' + row.ym.substring(2, 4), creditsContainLBB(row.credits) ? figures.tick : figures.cross, tagsMatchingQuery(row._highlightResult.tags3).join(''), tagsMatchingQuery(row._highlightResult.tags2).join(''), tagsMatchingQuery(row._highlightResult.tags1).join(''), tagsMatchingQuery(row._highlightResult.etagsA).join(''), tagsMatchingQuery(row._highlightResult.etagsB).join('')]);
     });
