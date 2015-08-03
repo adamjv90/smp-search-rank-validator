@@ -15,14 +15,9 @@ var index = client.initIndex('images');
 
 var table = new Table({
     head: ['ID', 'Date', 'GID', 'isImageLbb', 'Tags 3', 'Tags 2', 'Tag', 'ETags A', 'ETags B'],
-    colWidths: [9, 8, 7, 8, 8, 8, 7, 9, 9]
+    colWidths: [9, 8, 7, 10, 8, 8, 7, 9, 9]
 });
 
-// function creditsContainLBB (credits) {
-//     return filter(credits, function (credit) {
-//         return credit.isLbb;
-//     }).length;
-// }
 
 function tagsMatchingQuery (tags) {
     return filter(map(tags, function (tag) {
